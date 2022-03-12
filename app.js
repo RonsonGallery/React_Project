@@ -1,20 +1,19 @@
 const { Router } = require('express');
 const express = require('express')
 const app = express();
-const PORT = 3000;
 const dotenv = require('dotenv').config()
+const PORT = process.env.PORT
 
 app.get('/', (req,res) =>{
     res.send('Hello World')
 });
 
 const post_routes = require('./routes/post_routes')
-app.use('/')
+app.use('/post',post_routes)
 
 
-const PORT = process.env.PORT
 app.listen(PORT, () => {
-    console.log('Example app listening on port' + PORT)
+    console.log('Example app listening on port ' + PORT)
 });
 
-module.exports = Router
+//module.exports = Routernp
