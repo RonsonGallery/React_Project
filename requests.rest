@@ -4,9 +4,19 @@ GET http://localhost:3000/
 
 ###
 
+GET http://localhost:3000/?sender=Ronson
+
+###
+
 GET http://localhost:3000/post
 
 
 ###
 
 POST http://localhost:3000/post
+Content-Type: application/json
+
+{
+    "message" : "this is my first message",
+    "sender" : "Ronson"
+}

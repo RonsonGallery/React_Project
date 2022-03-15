@@ -6,5 +6,6 @@ router.get('/',Post.getAllPosts)
 
 router.post('/',Post.createNewPost)
 
+router.post('/',Post.getPostById)
 
 module.exports = router
