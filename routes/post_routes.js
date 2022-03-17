@@ -6,6 +6,8 @@ router.get('/',Post.getAllPosts)
 
 router.post('/',Post.createNewPost)
 
-router.post('/',Post.getPostById)
+router.get('/:id',Post.getPostById)
+
+router.delete('/:id',Post.deletePostById)
 
 module.exports = router

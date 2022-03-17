@@ -28,22 +28,26 @@ const getAllPosts = async (req,res)=>{
 
 }
 
-const getPostById = async (req, res)=>{
-    console.log('gGetPostById id=' + req.params.id)
-    const id = req.params.id
 
+const getPostById = async (req, res)=>{
+    console.log('getPostById id=' + req.params.id)
+    const id = req.params.id
     if (id == null | id == undefined){
-        res.status(400).send({'error': 'no id provided'}) 
+        return res.status(400).send({'err':'no id provided'})
     }
 
     try{
-        post = Post.findById(id)
-        res.status(200).send(post)
-    }
-    catch(err){
+        post = await Post.findById(id)
+        if (post == null){
+            res.status(400).send({
+                'err': 'post doesnot exists'
+            })
+        }else{
+            res.status(200).send(post)
+        }
+    }catch(err){
         res.status(400).send({
-            'status' : 'failed',
-            'err' :err.message
+            'err': err.message
         })
     }
 }
@@ -80,9 +84,34 @@ const createNewPost = async (req,res) =>{
 
 };
 
+/**
+ * Create new post
+ * @param {HTTP request} req
+ * @param {HTTP response} res
+ */
+
+
+const deletePostById = async (req, res)=>{
+    console.log('getPostById id=' + req.params.id)
+    const id = req.params.id
+    if (id == null | id == undefined){
+        return res.status(400).send({'err':'no id provided'})
+    }
+
+    try{
+        await Post.deleteOne({"_id" : id})
+        res.status(200).send()
+    }catch(err){
+        res.status(400).send({
+            'err': err.message
+        })
+    }
+}
+
 
 module.exports = {
     getAllPosts,
     createNewPost,
-    getPostById
+    getPostById,
+    deletePostById
 }
