@@ -1,18 +1,18 @@
-const Post = require('../models/post_model')
-
+import Post from '../Models/post_model'
+import { Request,Response } from 'express'
 /**
  * Gets all the posts
  * @param {HTTP request} req
  * @param {HTTP response} res
  */
 
-const getAllPosts = async (req,res)=>{
+const getAllPosts = async (req : Request,res : Response)=>{
    console.log('getAllPosts')
 
    try{
     const sender = req.query.sender
-    var posts
-    if(sender != null | sender != undefined ){
+    let posts
+    if(sender != null || sender != undefined ){
         posts = await Post.find({'sender':sender})
     }else{
         posts = await Post.find()
@@ -29,15 +29,15 @@ const getAllPosts = async (req,res)=>{
 }
 
 
-const getPostById = async (req, res)=>{
+const getPostById = async (req : Request,res : Response)=>{
     console.log('getPostById id=' + req.params.id)
     const id = req.params.id
-    if (id == null | id == undefined){
+    if (id == null || id == undefined){
         return res.status(400).send({'err':'no id provided'})
     }
 
     try{
-        post = await Post.findById(id)
+        const post = await Post.findById(id)
         if (post == null){
             res.status(400).send({
                 'err': 'post doesnot exists'
@@ -61,17 +61,17 @@ const getPostById = async (req, res)=>{
 
 
 
-const createNewPost = async (req,res) =>{
+const createNewPost = async (req : Request,res : Response) =>{
     console.log(req.body)
 
-    const post = Post({
+    const post = new Post({
         message : req.body.message,
         sender : req.body.sender
     })
 
 
     try{
-        newPost = await post.save()
+        const newPost = await post.save()
         res.status(200).send(newPost)
     }
     catch(err){
@@ -91,10 +91,10 @@ const createNewPost = async (req,res) =>{
  */
 
 
-const deletePostById = async (req, res)=>{
+const deletePostById = async (req : Request,res : Response)=>{
     console.log('getPostById id=' + req.params.id)
     const id = req.params.id
-    if (id == null | id == undefined){
+    if (id == null || id == undefined){
         return res.status(400).send({'err':'no id provided'})
     }
 
@@ -109,9 +109,9 @@ const deletePostById = async (req, res)=>{
 }
 
 
-module.exports = {
+export = {
     getAllPosts,
     createNewPost,
     getPostById,
-    deletePostById
+    deletePostById,
 }
